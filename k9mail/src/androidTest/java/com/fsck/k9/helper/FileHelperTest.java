@@ -9,7 +9,7 @@ import static junit.framework.Assert.assertEquals;
 
 
 @RunWith(AndroidJUnit4.class)
-public class FileHelperTest  {
+public class FileHelperTest {
 
     @Test
     public void testSanitize1() {

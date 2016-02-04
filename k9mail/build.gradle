@@ -36,6 +36,11 @@ dependencies {
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
+
+
+    androidTestCompile 'com.android.support.test:runner:0.+'
+    androidTestCompile 'com.android.support.test:rules:0.+'
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.+'
 }
 
 android {
@@ -49,7 +54,7 @@ android {
         versionCode 23060
         versionName '5.106'
 
-        minSdkVersion 15
+        minSdkVersion 18
         targetSdkVersion 22
 
         generatedDensities = ['mdpi', 'hdpi', 'xhdpi']
