@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import com.fsck.k9.helper.HtmlConverterTest;
 import com.fsck.k9.helper.HTMLSantizerTest;
 import com.fsck.k9.helper.EmailTest;
+//import com.fsck.k9.helper.IdentityTest;
 
 /**
  * Created by Josh on 2/4/2016.
@@ -28,5 +29,10 @@ public class RunAllTests {
         //run the HTMLSanitizer Test
         HTMLSantizerTest htmlSanitizerTest = new HTMLSantizerTest();
         htmlSanitizerTest.testHtmlSanitizer();
+
+        //run Identity Test
+        //IdentityTest identityTest = new IdentityTest();
+        //identityTest.testCheckIdentity();
+        //Test does not work
     }
 }
