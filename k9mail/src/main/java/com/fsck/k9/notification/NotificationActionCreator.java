@@ -21,7 +21,6 @@ import com.fsck.k9.activity.MessageReference;
 import com.fsck.k9.activity.NotificationDeleteConfirmation;
 import com.fsck.k9.search.LocalSearch;
 
-
 /**
  * This class contains methods to create the {@link PendingIntent}s for the actions of new mail notifications.
  * <p/>
@@ -87,6 +86,13 @@ class NotificationActionCreator {
         Intent intent = NotificationActionService.createDismissMessageIntent(context, messageReference);
 
         return PendingIntent.getService(context, notificationId, intent,
+                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+    }
+
+    public PendingIntent createQuickReplyPendingIntent(MessageReference messageReference, int notificationId) {
+        Intent intent = MessageCompose.getActionQuickReplyIntent(context, messageReference);
+
+        return PendingIntent.getActivity(context, notificationId, intent,
                 PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
