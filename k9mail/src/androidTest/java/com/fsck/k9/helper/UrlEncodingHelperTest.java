@@ -26,4 +26,3 @@ public class UrlEncodingHelperTest
         assertTrue(description, UrlEn.getDescription().equals("UTF-8 not found"));
     }
 }
-    }
