@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.fsck.k9.Account;
 import com.fsck.k9.K9;
@@ -91,7 +92,7 @@ class NotificationActionCreator {
 
     public PendingIntent createQuickReplyPendingIntent(MessageReference messageReference, int notificationId) {
         Intent intent = MessageCompose.getActionQuickReplyIntent(context, messageReference);
-
+        Log.d("findme", "createQuickReplyPendingIntent(...)");
         return PendingIntent.getActivity(context, notificationId, intent,
                 PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }

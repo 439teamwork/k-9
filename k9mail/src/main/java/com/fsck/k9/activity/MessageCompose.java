@@ -444,14 +444,12 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         intent.setAction(ACTION_REPLY);
         intent.putExtra(EXTRA_MESSAGE_REFERENCE, messageReference);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //Log.d("findme", "getActionReplyIntent()");
         return intent;
     }
 
 
     /**
-     * Get intent for composing a new message as a reply to the given message. If replyAll is true
-     * the function is reply all instead of simply reply.
+     * Get intent for composing a new message as a quick reply to the given message.
      * @param context
      */
     public static Intent getActionQuickReplyIntent(Context context, MessageReference messageReference) {
@@ -459,7 +457,6 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         intent.setAction(ACTION_QUICK_REPLY);
         intent.putExtra(EXTRA_MESSAGE_REFERENCE, messageReference);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //Log.d("findme", "getActionQuickReplyIntent()");
         return intent;
     }
 
@@ -575,7 +572,6 @@ public class MessageCompose extends K9Activity implements OnClickListener,
 
         RecipientMvpView recipientMvpView = new RecipientMvpView(this);
         recipientPresenter = new RecipientPresenter(this, recipientMvpView, mAccount);
-        Log.d("findme", "rec: " + recipientMvpView.getToRecipients().toString());
 
         mSubjectView = (EditText) findViewById(R.id.subject);
         mSubjectView.getInputExtras(true).putBoolean("allowEmoji", true);
@@ -652,8 +648,11 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         if (initFromIntent(intent)) {
             mAction = Action.COMPOSE;
             mDraftNeedsSaving = true;
+            Log.d("findme", "initFromIntent(intent)");
         } else {
+            Log.d("findme", "else");
             String action = intent.getAction();
+            Log.d("findme", "action=" + action);
             if (ACTION_COMPOSE.equals(action)) {
                 mAction = Action.COMPOSE;
             } else if (ACTION_QUICK_REPLY.equals(action)) {
