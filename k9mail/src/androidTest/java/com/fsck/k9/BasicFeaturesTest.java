@@ -32,11 +32,5 @@ public class BasicFeaturesTest {
         assertFalse(testValidator.isValidAddressOnly("aaabbbcom"));
         //test 5: check tricky email address
         assertFalse(testValidator.isValidAddressOnly("@."));
-
-        //code that does nothing
-        for (int i = 0; i < 2; i++) {
-            //;
-            //more nothing
-        }
     }
 }
