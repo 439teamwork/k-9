@@ -14,7 +14,7 @@ afterEvaluate {
 
             includeFilter = file("$rootProject.projectDir/config/findbugs/include_filter.xml")
             excludeFilter = file("$rootProject.projectDir/config/findbugs/exclude_filter.xml")
-
+			
             def variantCompile = variant.javaCompile
 
             classes = fileTree(variantCompile.destinationDir)

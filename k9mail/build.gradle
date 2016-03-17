@@ -1,7 +1,8 @@
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply from: '../gradle/plugins/checkstyle-android.gradle'
-apply from: '../gradle/plugins/findbugs-android.gradle'
+//apply from: '../gradle/plugins/findbugs-android.gradle'
+apply plugin: 'findbugs'
 apply plugin: 'jacoco'
 
 repositories {
@@ -135,6 +136,25 @@ task jacocoTestReport(type:JacocoReport) {
         html.destination = "${buildDir}/reports/jacoco"
     }
 }
+
+task customFindbugs(type: FindBugs) {
+    logger.warn("findbugs custom")
+    ignoreFailures = true
+    effort = "default"
+    reportLevel = "medium"
+    classes = fileTree('build/classes/debug/')
+    excludeFilter = file("$rootProject.rootDir/config/findbugs/exclude.xml")
+
+    source = fileTree('src/main/java/')
+    classpath = files()
+    reports {
+        html.enabled = true
+        html {
+            destination "$project.buildDir/reports/cfindbugs/findbugs-output.html"
+        }
+    }
+}
+
 
 if (project.hasProperty('keyAlias')) {
     android.signingConfigs.release.keyAlias = keyAlias
