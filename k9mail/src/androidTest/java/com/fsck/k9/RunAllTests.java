@@ -14,6 +14,7 @@ import com.fsck.k9.helper.EmailTest;
  * runs our entire custom test suite
  * all tests that we write should be referenced/run here
  */
+
 @RunWith(AndroidJUnit4.class)
 public class RunAllTests {
     @Test
