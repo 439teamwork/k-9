@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="10d1c9d4-6eea-459b-9b8c-d12daabeb115" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>k9mail</name>
+  <description>k9 email</description>
+  <parameters>
+    <param name="env.ANDROID_HOME" value="E:\Program Files (x86)\Android\android-sdk" />
+    <param name="env.GRADLE_HOME" value="E:\gradle-2.12" />
+  </parameters>
+  <cleanup />
+</project>
+
