@@ -1662,7 +1662,7 @@ public class MessagingController implements Runnable {
     }
     private String getRootCauseMessage(Throwable t) {
         Throwable rootCause = t;
-        Throwable nextCause = rootCause;
+        Throwable nextCause;
         do {
             nextCause = rootCause.getCause();
             if (nextCause != null) {
@@ -2015,7 +2015,7 @@ public class MessagingController implements Runnable {
     throws MessagingException {
         Folder remoteSrcFolder = null;
         Folder remoteDestFolder = null;
-        LocalFolder localDestFolder = null;
+        LocalFolder localDestFolder;
         try {
             String srcFolder = command.arguments[0];
             if (account.getErrorFolderName().equals(srcFolder)) {

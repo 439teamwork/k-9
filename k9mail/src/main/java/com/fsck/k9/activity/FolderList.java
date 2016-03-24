@@ -937,7 +937,7 @@ public class FolderList extends K9ListActivity {
         }
 
         public FolderInfoHolder getFolder(String folder) {
-            FolderInfoHolder holder = null;
+            FolderInfoHolder holder;
 
             int index = getFolderIndex(folder);
             if (index >= 0) {

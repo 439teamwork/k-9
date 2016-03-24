@@ -499,7 +499,7 @@ public class LockableDatabase {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void deleteDatabase(File database) {
-        boolean deleted = false;
+        boolean deleted;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             deleted = SQLiteDatabase.deleteDatabase(database);
         } else {

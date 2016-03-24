@@ -1320,7 +1320,7 @@ public class Account implements BaseAccount, StoreConfig {
     private synchronized List<Identity> loadIdentities(SharedPreferences prefs) {
         List<Identity> newIdentities = new ArrayList<Identity>();
         int ident = 0;
-        boolean gotOne = false;
+        boolean gotOne;
         do {
             gotOne = false;
             String name = prefs.getString(mUuid + "." + IDENTITY_NAME_KEY + "." + ident, null);
@@ -1362,7 +1362,7 @@ public class Account implements BaseAccount, StoreConfig {
 
     private synchronized void deleteIdentities(SharedPreferences prefs, SharedPreferences.Editor editor) {
         int ident = 0;
-        boolean gotOne = false;
+        boolean gotOne;
         do {
             gotOne = false;
             String email = prefs.getString(mUuid + "." + IDENTITY_EMAIL_KEY + "." + ident, null);

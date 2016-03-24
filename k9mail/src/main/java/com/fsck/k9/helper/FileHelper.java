@@ -91,7 +91,7 @@ public class FileHelper {
                 FileOutputStream out = new FileOutputStream(to);
                 try {
                     byte[] buffer = new byte[1024];
-                    int count = -1;
+                    int count;
                     while ((count = in.read(buffer)) > 0) {
                         out.write(buffer, 0, count);
                     }
