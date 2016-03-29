@@ -220,7 +220,7 @@ public class MessageBuilder {
              * header value (all parameters at once) will be encoded by
              * MimeHeader.writeTo().
              */
-            bp.addHeader(MimeHeader.HEADER_CONTENT_TYPE, String.format("%s;\r\n name=\"%s\"",
+            bp.addHeader(MimeHeader.HEADER_CONTENT_TYPE, String.format("%s;\r%n name=\"%s\"",
                     contentType,
                     EncoderUtil.encodeIfNecessary(attachment.name,
                             EncoderUtil.Usage.WORD_ENTITY, 7)));
