@@ -468,8 +468,8 @@ public class MessageProvider extends ContentProvider {
         @Override
         public Cursor query(final Uri uri, String[] projection, String selection,
                             String[] selectionArgs, String sortOrder) throws Exception {
-            List<String> segments = null;
-            int accountId = -1;
+            List<String> segments;
+            int accountId;
             segments = uri.getPathSegments();
             accountId = Integer.parseInt(segments.get(1));
 
@@ -493,7 +493,7 @@ public class MessageProvider extends ContentProvider {
             MatrixCursor ret = new MatrixCursor(projection);
 
             Account myAccount;
-            AccountStats myAccountStats = null;
+            AccountStats myAccountStats;
 
             Object[] values = new Object[2];
 

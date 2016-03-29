@@ -4,6 +4,7 @@ apply from: '../gradle/plugins/checkstyle-android.gradle'
 //apply from: '../gradle/plugins/findbugs-android.gradle'
 apply plugin: 'findbugs'
 apply plugin: 'jacoco'
+apply plugin: 'pmd'
 
 repositories {
     jcenter()
@@ -145,16 +146,45 @@ task customFindbugs(type: FindBugs) {
     classes = fileTree('build/classes/debug/')
     excludeFilter = file("$rootProject.rootDir/config/findbugs/exclude.xml")
 
-    source = fileTree('src/main/java/')
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
     classpath = files()
+
     reports {
+        xml.enabled = false
         html.enabled = true
+        xml {
+            destination "$project.buildDir/reports/findbugs/findbugs.xml"
+        }
         html {
-            destination "$project.buildDir/reports/cfindbugs/findbugs-output.html"
+            destination "$project.buildDir/reports/findbugs/findbugs.html"
         }
     }
 }
 
+task customPMD(type: Pmd) {
+    logger.warn("PMD custom")
+    ruleSetFiles = files("${project.rootDir}/config/quality/pmd/pmd-ruleset.xml")
+    ignoreFailures = false
+    ruleSets = []
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        xml {
+            destination "$project.buildDir/reports/pmd/pmd.xml"
+        }
+        html {
+            destination "$project.buildDir/reports/pmd/pmd.html"
+        }
+    }
+}
 
 if (project.hasProperty('keyAlias')) {
     android.signingConfigs.release.keyAlias = keyAlias

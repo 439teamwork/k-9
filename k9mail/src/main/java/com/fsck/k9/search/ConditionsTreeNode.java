@@ -91,7 +91,7 @@ public class ConditionsTreeNode implements Parcelable {
      * @return A single ConditionsTreeNode
      */
     private static ConditionsTreeNode buildNodeFromRow(Cursor cursor) {
-        ConditionsTreeNode result = null;
+        ConditionsTreeNode result;
         SearchCondition condition = null;
 
         Operator tmpValue = ConditionsTreeNode.Operator.valueOf(cursor.getString(5));

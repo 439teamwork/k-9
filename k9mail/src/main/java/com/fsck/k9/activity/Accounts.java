@@ -1787,7 +1787,7 @@ public class Accounts extends K9ListActivity implements OnItemClickListener {
 
             holder.description.setText(description);
 
-            Integer unreadMessageCount = null;
+            Integer unreadMessageCount;
             if (stats != null) {
                 unreadMessageCount = stats.unreadMessageCount;
                 holder.newMessageCount.setText(Integer.toString(unreadMessageCount));

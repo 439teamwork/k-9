@@ -48,7 +48,7 @@ public class BinaryTempFileBody implements RawDataBody, SizeAware {
             File newFile = File.createTempFile("body", null, mTempDirectory);
             final OutputStream out = new FileOutputStream(newFile);
             try {
-                OutputStream wrappedOut = null;
+                OutputStream wrappedOut;
                 if (MimeUtil.ENC_QUOTED_PRINTABLE.equals(encoding)) {
                     wrappedOut = new QuotedPrintableOutputStream(out, false);
                 } else if (MimeUtil.ENC_BASE64.equals(encoding)) {

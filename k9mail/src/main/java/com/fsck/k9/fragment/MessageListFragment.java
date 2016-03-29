@@ -3378,7 +3378,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
     }
 
     private String buildSortOrder() {
-        String sortColumn = MessageColumns.ID;
+        String sortColumn;
         switch (mSortType) {
             case SORT_ARRIVAL: {
                 sortColumn = MessageColumns.INTERNAL_DATE;
