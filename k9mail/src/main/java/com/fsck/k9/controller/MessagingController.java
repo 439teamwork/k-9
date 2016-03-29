@@ -2404,13 +2404,13 @@ public class MessagingController implements Runnable {
             try {
                 PackageInfo packageInfo = context.getPackageManager().getPackageInfo(
                         context.getPackageName(), 0);
-                ps.format("K9-Mail version: %s\r\n", packageInfo.versionName);
+                ps.format("K9-Mail version: %s\r%n", packageInfo.versionName);
             } catch (Exception e) {
                 // ignore
             }
-            ps.format("Device make: %s\r\n", Build.MANUFACTURER);
-            ps.format("Device model: %s\r\n", Build.MODEL);
-            ps.format("Android version: %s\r\n\r\n", Build.VERSION.RELEASE);
+            ps.format("Device make: %s\r%n", Build.MANUFACTURER);
+            ps.format("Device model: %s\r%n", Build.MODEL);
+            ps.format("Android version: %s\r%n\r%n", Build.VERSION.RELEASE);
             t.printStackTrace(ps);
             ps.close();
 
