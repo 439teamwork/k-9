@@ -56,7 +56,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MessageProvider extends ContentProvider {
 
-    public static interface MessageColumns extends BaseColumns {
+    public interface MessageColumns extends BaseColumns {
         /**
          * The number of milliseconds since Jan. 1, 1970, midnight GMT.
          *
@@ -124,7 +124,7 @@ public class MessageProvider extends ContentProvider {
         String INCREMENT = "id";
     }
 
-    protected static interface QueryHandler {
+    protected interface QueryHandler {
         /**
          * The path this instance is able to respond to.
          *
@@ -152,7 +152,7 @@ public class MessageProvider extends ContentProvider {
      * @param <T>
      * @param <K>
      */
-    public static interface FieldExtractor<T, K> {
+    public interface FieldExtractor<T, K> {
         K getField(T source);
     }
 

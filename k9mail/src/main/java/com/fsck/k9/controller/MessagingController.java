@@ -4858,6 +4858,6 @@ public class MessagingController implements Runnable {
     }
 
     interface MessageActor {
-        public void act(final Account account, final Folder folder, final List<Message> messages);
+        void act(final Account account, final Folder folder, final List<Message> messages);
     }
 }
