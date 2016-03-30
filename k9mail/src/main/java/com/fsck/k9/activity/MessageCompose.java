@@ -227,7 +227,7 @@ public class MessageCompose extends K9Activity implements OnClickListener,
      * </p>
      */
     private String mSourceMessageBody;
-    private String mMsgTemplate;
+    //private String mMsgTemplate;
 
     /**
      * Indicates that the source message has been processed at least once and should not
