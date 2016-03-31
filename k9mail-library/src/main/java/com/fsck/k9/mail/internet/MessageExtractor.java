@@ -413,15 +413,9 @@ public class MessageExtractor {
          * If the part is plain text and it got this far it's part of a
          * mixed (et al) and should be rendered inline.
          */
-        else if ((!attachment) && (isSameMimeType(part.getMimeType(), "text/plain"))) {
-            return true;
-        }
-        /*
+        else /*
          * Finally, if it's nothing else we will include it as an attachment.
-         */
-        else {
-            return false;
-        }
+         */return (!attachment) && (isSameMimeType(part.getMimeType(), "text/plain"));
     }
 
     private static String getContentDisposition(Part part) {

@@ -20,5 +20,5 @@ public interface ImapResponseCallback {
      *                   and the exception will be thrown after the
      *                   complete IMAP response has been parsed.
      */
-    public Object foundLiteral(ImapResponse response, FixedLengthInputStream literal) throws Exception;
+    Object foundLiteral(ImapResponse response, FixedLengthInputStream literal) throws Exception;
 }

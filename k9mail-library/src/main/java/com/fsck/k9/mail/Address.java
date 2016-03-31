@@ -144,7 +144,7 @@ public class Address implements Serializable {
                 org.apache.james.mime4j.dom.address.Address address = parsedList.get(i);
                 if (address instanceof Mailbox) {
                     Mailbox mailbox = (Mailbox)address;
-                    addresses.add(new Address(mailbox.getLocalPart() + "@" + mailbox.getDomain(), mailbox.getName(), false));
+                    addresses.add(new Address(mailbox.getLocalPart() + "@" + mailbox.getDomain(), mailbox.getName(), true));
                 } else {
                     Log.e(LOG_TAG, "Unknown address type from Mime4J: "
                             + address.getClass().toString());
@@ -230,15 +230,15 @@ public class Address implements Serializable {
         List<Address> addresses = new ArrayList<Address>();
         int length = addressList.length();
         int pairStartIndex = 0;
-        int pairEndIndex = 0;
-        int addressEndIndex = 0;
+        int pairEndIndex;
+        int addressEndIndex;
         while (pairStartIndex < length) {
             pairEndIndex = addressList.indexOf(",\u0000", pairStartIndex);
             if (pairEndIndex == -1) {
                 pairEndIndex = length;
             }
             addressEndIndex = addressList.indexOf(";\u0000", pairStartIndex);
-            String address = null;
+            String address;
             String personal = null;
             if (addressEndIndex == -1 || addressEndIndex > pairEndIndex) {
                 address = addressList.substring(pairStartIndex, pairEndIndex);
