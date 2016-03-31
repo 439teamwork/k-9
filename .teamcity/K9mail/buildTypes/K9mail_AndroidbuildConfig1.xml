@@ -18,6 +18,13 @@
           <param name="ui.gradleRunner.gradle.tasks.names" value="clean build" />
         </parameters>
       </runner>
+      <runner id="RUNNER_1" name="FindBugs" type="simpleRunner">
+        <parameters>
+          <param name="script.content" value="gradlew customFindBugs" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
     </build-runners>
     <vcs-settings>
       <vcs-entry-ref root-id="K9mail_HttpsGithubCom439teamworkK9gitRefsHeadsMaster" />
