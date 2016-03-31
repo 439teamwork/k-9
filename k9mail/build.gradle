@@ -107,6 +107,7 @@ android {
 }
 
 task jacocoTestReport(type:JacocoReport) {
+    logger.warn("jacoco test report")
     group = "Reporting"
 
     description = "Generate Jacoco coverage reports"
@@ -143,10 +144,12 @@ task customFindbugs(type: FindBugs) {
     ignoreFailures = true
     effort = "default"
     reportLevel = "medium"
-    classes = fileTree('build/classes/debug/')
+
     excludeFilter = file("$rootProject.rootDir/config/findbugs/exclude.xml")
 
-    source 'src'
+    classes = fileTree('build/classes/debug/')
+    source = fileTree('src/main/java')
+
     include '**/*.java'
     exclude '**/gen/**'
 
@@ -182,6 +185,21 @@ task customPMD(type: Pmd) {
         }
         html {
             destination "$project.buildDir/reports/pmd/pmd.html"
+        }
+    }
+}
+
+// add CPD to check
+check << {
+    logger.warn("CPD")
+    File outDir = new File('build/reports/pmd/')
+    outDir.mkdirs()
+    ant.taskdef(name: 'cpd', classname: 'net.sourceforge.pmd.cpd.CPDTask',
+            classpath: configurations.pmd.asPath)
+    ant.cpd(minimumTokenCount: '100', format: 'xml',
+            outputFile: new File(outDir , 'cpd.xml')) {
+        fileset(dir: "src/main/java") {
+            include(name: '**/*.java')
         }
     }
 }
