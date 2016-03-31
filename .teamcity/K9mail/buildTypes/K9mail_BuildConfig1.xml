@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="ad3c8d57-bcab-421f-88a4-1396be8848b7" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>Build_config_1</name>
+  <description />
+  <settings>
+    <parameters />
+    <build-runners />
+    <vcs-settings>
+      <vcs-entry-ref root-id="K9mail_HttpsGithubCom439teamworkK9gitRefsHeadsMaster" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers />
+    <cleanup />
+  </settings>
+</build-type>
+
