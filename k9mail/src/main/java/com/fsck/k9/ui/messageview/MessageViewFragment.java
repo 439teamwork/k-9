@@ -703,15 +703,15 @@ public class MessageViewFragment extends Fragment implements ConfirmationDialogF
     }
 
     public interface MessageViewFragmentListener {
-        public void onForward(LocalMessage mMessage, PgpData mPgpData);
-        public void disableDeleteAction();
-        public void onReplyAll(LocalMessage mMessage, PgpData mPgpData);
-        public void onReply(LocalMessage mMessage, PgpData mPgpData);
-        public void displayMessageSubject(String title);
-        public void setProgress(boolean b);
-        public void showNextMessageOrReturn();
-        public void messageHeaderViewAvailable(MessageHeader messageHeaderView);
-        public void updateMenu();
+        void onForward(LocalMessage mMessage, PgpData mPgpData);
+        void disableDeleteAction();
+        void onReplyAll(LocalMessage mMessage, PgpData mPgpData);
+        void onReply(LocalMessage mMessage, PgpData mPgpData);
+        void displayMessageSubject(String title);
+        void setProgress(boolean b);
+        void showNextMessageOrReturn();
+        void messageHeaderViewAvailable(MessageHeader messageHeaderView);
+        void updateMenu();
     }
 
     public boolean isInitialized() {

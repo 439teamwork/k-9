@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.fsck.k9.Account;
 import com.fsck.k9.K9;
@@ -20,7 +21,6 @@ import com.fsck.k9.activity.MessageList;
 import com.fsck.k9.activity.MessageReference;
 import com.fsck.k9.activity.NotificationDeleteConfirmation;
 import com.fsck.k9.search.LocalSearch;
-
 
 /**
  * This class contains methods to create the {@link PendingIntent}s for the actions of new mail notifications.
@@ -87,6 +87,13 @@ class NotificationActionCreator {
         Intent intent = NotificationActionService.createDismissMessageIntent(context, messageReference);
 
         return PendingIntent.getService(context, notificationId, intent,
+                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+    }
+
+    public PendingIntent createQuickReplyPendingIntent(MessageReference messageReference, int notificationId) {
+        Intent intent = MessageCompose.getActionQuickReplyIntent(context, messageReference);
+        Log.d("findme", "createQuickReplyPendingIntent(...)");
+        return PendingIntent.getActivity(context, notificationId, intent,
                 PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 

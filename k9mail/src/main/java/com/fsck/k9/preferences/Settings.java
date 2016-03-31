@@ -378,7 +378,7 @@ public class Settings {
          * @return A set of setting names that were removed during the upgrade process or
          *         {@code null} if none were removed.
          */
-        public Set<String> upgrade(Map<String, Object> settings);
+        Set<String> upgrade(Map<String, Object> settings);
     }
 
 

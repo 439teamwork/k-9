@@ -1,3 +1,4 @@
+
 package com.fsck.k9.helper;
 
 import android.support.test.runner.AndroidJUnit4;
@@ -28,7 +29,7 @@ public class FileHelperTest {
 
     @Test
     public void testSanitize4() {
-        checkSanitization(".東京_!", ".東京?!");
+        checkSanitization(".Tanushri", "Tanushri");
     }
 
     @Test
@@ -40,3 +41,4 @@ public class FileHelperTest {
         assertEquals(expected, FileHelper.sanitizeFilename(actual));
     }
 }
+

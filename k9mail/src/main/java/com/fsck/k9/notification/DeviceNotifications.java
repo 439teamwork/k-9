@@ -111,6 +111,7 @@ class DeviceNotifications extends BaseNotifications {
 
         NotificationContent content = holder.content;
         addReplyAction(builder, content, notificationId);
+        addQuickReplyAction(builder, content, notificationId);
         addMarkAsReadAction(builder, content, notificationId);
         addDeleteAction(builder, content, notificationId);
 
@@ -215,6 +216,16 @@ class DeviceNotifications extends BaseNotifications {
         PendingIntent action = actionCreator.createDeleteMessagePendingIntent(messageReference, notificationId);
 
         builder.addAction(icon, title, action);
+    }
+
+    private void addQuickReplyAction(Builder builder, NotificationContent content, int notificationId) {
+        int icon = getReplyActionIcon();
+        String title = "Quick Reply";
+
+        MessageReference messageReference = content.messageReference;
+        PendingIntent quickReplyToMessagePendingIntent = actionCreator.createQuickReplyPendingIntent(messageReference, notificationId);
+
+        builder.addAction(icon, title, quickReplyToMessagePendingIntent);
     }
 
     private void addReplyAction(Builder builder, NotificationContent content, int notificationId) {

@@ -1,8 +1,10 @@
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply from: '../gradle/plugins/checkstyle-android.gradle'
-apply from: '../gradle/plugins/findbugs-android.gradle'
+//apply from: '../gradle/plugins/findbugs-android.gradle'
+apply plugin: 'findbugs'
 apply plugin: 'jacoco'
+apply plugin: 'pmd'
 
 repositories {
     jcenter()
@@ -77,7 +79,7 @@ android {
 
         debug {
             applicationIdSuffix ".debug"
-            testCoverageEnabled rootProject.testCoverage
+            testCoverageEnabled = true //rootProject.testCoverage
 
             buildConfigField "boolean", "DEVELOPER_MODE", "true"
         }
@@ -101,6 +103,86 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+task jacocoTestReport(type:JacocoReport) {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    // exclude auto-generated classes and tests
+    def fileFilter = ['**/R.class', '**/R$*.class',
+                      '**/BuildConfig.*', '**/Manifest*.*',
+                      'android/**/*.*']
+    def debugTree = fileTree(dir:
+            "${project.buildDir}/intermediates/classes/debug",
+            excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    additionalSourceDirs = files([
+            "${buildDir}/generated/source/buildConfig/debug",
+            "${buildDir}/generated/source/r/debug"
+    ])
+    executionData = fileTree(dir: project.projectDir, includes:
+            ['**/*.exec', '**/*.ec'])
+
+    reports {
+        xml.enabled = true
+        xml.destination = "${buildDir}/jacocoTestReport.xml"
+        csv.enabled = false
+        html.enabled = true
+        html.destination = "${buildDir}/reports/jacoco"
+    }
+}
+
+task customFindbugs(type: FindBugs) {
+    logger.warn("findbugs custom")
+    ignoreFailures = true
+    effort = "default"
+    reportLevel = "medium"
+    classes = fileTree('build/classes/debug/')
+    excludeFilter = file("$rootProject.rootDir/config/findbugs/exclude.xml")
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    classpath = files()
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        xml {
+            destination "$project.buildDir/reports/findbugs/findbugs.xml"
+        }
+        html {
+            destination "$project.buildDir/reports/findbugs/findbugs.html"
+        }
+    }
+}
+
+task customPMD(type: Pmd) {
+    logger.warn("PMD custom")
+    ruleSetFiles = files("${project.rootDir}/config/quality/pmd/pmd-ruleset.xml")
+    ignoreFailures = false
+    ruleSets = []
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        xml {
+            destination "$project.buildDir/reports/pmd/pmd.xml"
+        }
+        html {
+            destination "$project.buildDir/reports/pmd/pmd.html"
+        }
     }
 }
 

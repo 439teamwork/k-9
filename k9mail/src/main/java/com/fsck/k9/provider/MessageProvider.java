@@ -56,7 +56,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MessageProvider extends ContentProvider {
 
-    public static interface MessageColumns extends BaseColumns {
+    public interface MessageColumns extends BaseColumns {
         /**
          * The number of milliseconds since Jan. 1, 1970, midnight GMT.
          *
@@ -124,7 +124,7 @@ public class MessageProvider extends ContentProvider {
         String INCREMENT = "id";
     }
 
-    protected static interface QueryHandler {
+    protected interface QueryHandler {
         /**
          * The path this instance is able to respond to.
          *
@@ -152,7 +152,7 @@ public class MessageProvider extends ContentProvider {
      * @param <T>
      * @param <K>
      */
-    public static interface FieldExtractor<T, K> {
+    public interface FieldExtractor<T, K> {
         K getField(T source);
     }
 
@@ -468,8 +468,8 @@ public class MessageProvider extends ContentProvider {
         @Override
         public Cursor query(final Uri uri, String[] projection, String selection,
                             String[] selectionArgs, String sortOrder) throws Exception {
-            List<String> segments = null;
-            int accountId = -1;
+            List<String> segments;
+            int accountId;
             segments = uri.getPathSegments();
             accountId = Integer.parseInt(segments.get(1));
 
@@ -493,7 +493,7 @@ public class MessageProvider extends ContentProvider {
             MatrixCursor ret = new MatrixCursor(projection);
 
             Account myAccount;
-            AccountStats myAccountStats = null;
+            AccountStats myAccountStats;
 
             Object[] values = new Object[2];
 

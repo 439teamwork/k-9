@@ -25,7 +25,7 @@ public class LockableDatabase {
      * @param <T>
      *            Return value type for {@link #doDbWork(SQLiteDatabase)}
      */
-    public static interface DbCallback<T> {
+    public interface DbCallback<T> {
         /**
          * @param db
          *            The locked database on which the work should occur. Never
@@ -38,7 +38,7 @@ public class LockableDatabase {
         T doDbWork(SQLiteDatabase db) throws WrappedException, MessagingException;
     }
 
-    public static interface SchemaDefinition {
+    public interface SchemaDefinition {
         int getVersion();
 
         /**
@@ -499,7 +499,7 @@ public class LockableDatabase {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void deleteDatabase(File database) {
-        boolean deleted = false;
+        boolean deleted;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             deleted = SQLiteDatabase.deleteDatabase(database);
         } else {

@@ -113,12 +113,9 @@ public class MessageReference implements Parcelable {
             return false;
         }
         MessageReference other = (MessageReference) o;
-        if ((accountUuid == other.accountUuid || (accountUuid != null && accountUuid.equals(other.accountUuid)))
+        return (accountUuid == other.accountUuid || (accountUuid != null && accountUuid.equals(other.accountUuid)))
                 && (folderName == other.folderName || (folderName != null && folderName.equals(other.folderName)))
-                && (uid == other.uid || (uid != null && uid.equals(other.uid)))) {
-            return true;
-        }
-        return false;
+                && (uid == other.uid || (uid != null && uid.equals(other.uid)));
     }
 
     @Override

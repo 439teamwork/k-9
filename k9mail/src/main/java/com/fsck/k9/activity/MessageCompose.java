@@ -129,6 +129,7 @@ public class MessageCompose extends K9Activity implements OnClickListener,
     private static final long INVALID_DRAFT_ID = MessagingController.INVALID_MESSAGE_ID;
 
     private static final String ACTION_COMPOSE = "com.fsck.k9.intent.action.COMPOSE";
+    private static final String ACTION_QUICK_REPLY = "com.fsck.k9.intent.action.QUICK_REPLY";
     private static final String ACTION_REPLY = "com.fsck.k9.intent.action.REPLY";
     private static final String ACTION_REPLY_ALL = "com.fsck.k9.intent.action.REPLY_ALL";
     private static final String ACTION_FORWARD = "com.fsck.k9.intent.action.FORWARD";
@@ -226,6 +227,7 @@ public class MessageCompose extends K9Activity implements OnClickListener,
      * </p>
      */
     private String mSourceMessageBody;
+    //private String mMsgTemplate;
 
     /**
      * Indicates that the source message has been processed at least once and should not
@@ -259,7 +261,8 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         REPLY,
         REPLY_ALL,
         FORWARD,
-        EDIT_DRAFT
+        EDIT_DRAFT,
+        QUICK_REPLY
     }
 
     /**
@@ -441,9 +444,22 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         intent.setAction(ACTION_REPLY);
         intent.putExtra(EXTRA_MESSAGE_REFERENCE, messageReference);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
         return intent;
     }
+
+
+    /**
+     * Get intent for composing a new message as a quick reply to the given message.
+     * @param context
+     */
+    public static Intent getActionQuickReplyIntent(Context context, MessageReference messageReference) {
+        Intent intent = new Intent(context, MessageCompose.class);
+        intent.setAction(ACTION_QUICK_REPLY);
+        intent.putExtra(EXTRA_MESSAGE_REFERENCE, messageReference);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return intent;
+    }
+
 
     /**
      * Compose a new message as a reply to the given message. If replyAll is true the function
@@ -454,10 +470,10 @@ public class MessageCompose extends K9Activity implements OnClickListener,
      * @param messageBody optional, for decrypted messages, null if it should be grabbed from the given message
      */
     public static void actionReply(
-        Context context,
-        LocalMessage message,
-        boolean replyAll,
-        String messageBody) {
+            Context context,
+            LocalMessage message,
+            boolean replyAll,
+            String messageBody) {
         context.startActivity(getActionReplyIntent(context, message, replyAll, messageBody));
     }
 
@@ -632,10 +648,16 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         if (initFromIntent(intent)) {
             mAction = Action.COMPOSE;
             mDraftNeedsSaving = true;
+            Log.d("findme", "initFromIntent(intent)");
         } else {
+            Log.d("findme", "else");
             String action = intent.getAction();
+            Log.d("findme", "action=" + action);
             if (ACTION_COMPOSE.equals(action)) {
                 mAction = Action.COMPOSE;
+            } else if (ACTION_QUICK_REPLY.equals(action)) {
+                Log.d("findme","action is action quick reply");
+                mAction = Action.QUICK_REPLY;
             } else if (ACTION_REPLY.equals(action)) {
                 mAction = Action.REPLY;
             } else if (ACTION_REPLY_ALL.equals(action)) {
@@ -677,13 +699,14 @@ public class MessageCompose extends K9Activity implements OnClickListener,
             updateSignature();
 
             if (mAction == Action.REPLY || mAction == Action.REPLY_ALL ||
-                    mAction == Action.FORWARD || mAction == Action.EDIT_DRAFT) {
+                    mAction == Action.FORWARD || mAction == Action.EDIT_DRAFT || mAction == Action.QUICK_REPLY) {
                 /*
                  * If we need to load the message we add ourself as a message listener here
                  * so we can kick it off. Normally we add in onResume but we don't
                  * want to reload the message every time the activity is resumed.
                  * There is no harm in adding twice.
                  */
+
                 MessagingController.getInstance(getApplication()).addListener(mListener);
 
                 final Account account = Preferences.getPreferences(this).getAccount(mMessageReference.getAccountUuid());
@@ -705,9 +728,17 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         }
 
         if (mAction == Action.REPLY || mAction == Action.REPLY_ALL ||
-                mAction == Action.EDIT_DRAFT) {
+                mAction == Action.EDIT_DRAFT || mAction == Action.QUICK_REPLY) {
             //change focus to message body.
             mMessageContentView.requestFocus();
+
+            if (mAction == Action.QUICK_REPLY) {
+                Log.d("findme", "setText()");
+                //TODO:make this modifiable by user
+                mMessageContentView.setText("My apologies; I am unable to respond at the moment. I will contact you as soon as possible.");
+            }
+
+
         } else {
             // Explicitly set focus to "To:" input field (see issue 2998)
             recipientMvpView.requestFocusOnToField();
@@ -2025,7 +2056,8 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         try {
             switch (mAction) {
                 case REPLY:
-                case REPLY_ALL: {
+                case REPLY_ALL:
+                case QUICK_REPLY: {
                     processMessageToReplyTo(message);
                     break;
                 }
@@ -2094,7 +2126,7 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         // Quote the message and setup the UI.
         populateUIWithQuotedMessage(mAccount.isDefaultQuotedTextShown());
 
-        if (mAction == Action.REPLY || mAction == Action.REPLY_ALL) {
+        if (mAction == Action.REPLY || mAction == Action.REPLY_ALL || mAction == Action.QUICK_REPLY) {
             Identity useIdentity = IdentityHelper.getRecipientIdentityFromMessage(mAccount, message);
             Identity defaultIdentity = mAccount.getIdentity(0);
             if (useIdentity != defaultIdentity) {
@@ -2229,7 +2261,7 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         updateFrom();
 
         Integer bodyLength = k9identity.get(IdentityField.LENGTH) != null
-                             ? Integer.valueOf(k9identity.get(IdentityField.LENGTH))
+                             ? Integer.parseInt(k9identity.get(IdentityField.LENGTH))
                              : 0;
         Integer bodyOffset = k9identity.get(IdentityField.OFFSET) != null
                              ? Integer.valueOf(k9identity.get(IdentityField.OFFSET))
@@ -2436,7 +2468,7 @@ public class MessageCompose extends K9Activity implements OnClickListener,
             // Strip signature.
             // closing tags such as </div>, </span>, </table>, </pre> will be cut off.
             if (mAccount.isStripSignature() &&
-                    (mAction == Action.REPLY || mAction == Action.REPLY_ALL)) {
+                    (mAction == Action.REPLY || mAction == Action.REPLY_ALL || mAction == Action.QUICK_REPLY)) {
                 Matcher dashSignatureHtml = DASH_SIGNATURE_HTML.matcher(content);
                 if (dashSignatureHtml.find()) {
                     Matcher blockquoteStart = BLOCKQUOTE_START.matcher(content);
@@ -2514,7 +2546,7 @@ public class MessageCompose extends K9Activity implements OnClickListener,
 
         } else if (mQuotedTextFormat == SimpleMessageFormat.TEXT) {
             if (mAccount.isStripSignature() &&
-                    (mAction == Action.REPLY || mAction == Action.REPLY_ALL)) {
+                    (mAction == Action.REPLY || mAction == Action.REPLY_ALL || mAction == Action.QUICK_REPLY)) {
                 if (DASH_SIGNATURE_PLAIN.matcher(content).find()) {
                     content = DASH_SIGNATURE_PLAIN.matcher(content).replaceFirst("\r\n");
                 }

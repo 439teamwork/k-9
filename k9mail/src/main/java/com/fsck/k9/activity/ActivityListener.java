@@ -32,7 +32,7 @@ public class ActivityListener extends MessagingListener {
 
     public String getOperation(Context context) {
         String operation;
-        String progress = null;
+        String progress;
         if (mLoadingAccountDescription  != null
                 || mSendingAccountDescription != null
                 || mLoadingHeaderFolderName != null
