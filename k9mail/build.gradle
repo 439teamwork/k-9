@@ -170,7 +170,7 @@ task customFindbugs(type: FindBugs) {
 task customPMD(type: Pmd) {
     logger.warn("PMD custom")
     ruleSetFiles = files("${project.rootDir}/config/quality/pmd/pmd-ruleset.xml")
-    ignoreFailures = false
+    ignoreFailures = true
     ruleSets = []
 
     source 'src'
