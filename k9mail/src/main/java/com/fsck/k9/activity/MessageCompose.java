@@ -2261,7 +2261,7 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         updateFrom();
 
         Integer bodyLength = k9identity.get(IdentityField.LENGTH) != null
-                             ? Integer.valueOf(k9identity.get(IdentityField.LENGTH))
+                             ? Integer.parseInt(k9identity.get(IdentityField.LENGTH))
                              : 0;
         Integer bodyOffset = k9identity.get(IdentityField.OFFSET) != null
                              ? Integer.valueOf(k9identity.get(IdentityField.OFFSET))
