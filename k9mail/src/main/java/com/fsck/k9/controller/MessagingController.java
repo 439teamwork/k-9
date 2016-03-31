@@ -4258,11 +4258,8 @@ public class MessagingController implements Runnable {
 
         // Don't notify if the sender address matches one of our identities and the user chose not
         // to be notified for such messages.
-        if (account.isAnIdentity(message.getFrom()) && !account.isNotifySelfNewMail()) {
-            return false;
-        }
+        return !(account.isAnIdentity(message.getFrom()) && !account.isNotifySelfNewMail());
 
-        return true;
     }
 
     public void deleteAccount(Context context, Account account) {
