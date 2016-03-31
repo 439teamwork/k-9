@@ -7,9 +7,7 @@
     <build-runners>
       <runner id="RUNNER_3" name="" type="simpleRunner">
         <parameters>
-          <param name="script.content"><![CDATA[call gradlew.bat
-call gradlew.bat customFindBugs
-call gradlew.bat jacocoTestReport]]></param>
+          <param name="script.content" value="call gradlew.bat" />
           <param name="teamcity.step.mode" value="default" />
           <param name="use.custom.script" value="true" />
         </parameters>
