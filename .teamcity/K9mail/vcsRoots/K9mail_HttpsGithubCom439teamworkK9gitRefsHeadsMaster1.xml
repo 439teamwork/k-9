@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="5ea4d65b-e1da-428f-a0b0-f3ea8c63ea01" type="jetbrains.git" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>https://github.com/439teamwork/k-9.git#refs/heads/master (1)</name>
+  <param name="agentCleanFilesPolicy" value="ALL_UNTRACKED" />
+  <param name="agentCleanPolicy" value="ON_BRANCH_CHANGE" />
+  <param name="authMethod" value="PASSWORD" />
+  <param name="branch" value="refs/heads/master" />
+  <param name="ignoreKnownHosts" value="true" />
+  <param name="secure:password" value="zxx9e5eeb76bc2a562c3ddd275eb821c7a9" />
+  <param name="submoduleCheckout" value="CHECKOUT" />
+  <param name="url" value="https://github.com/439teamwork/k-9.git" />
+  <param name="useAlternates" value="true" />
+  <param name="username" value="lorenzj4" />
+  <param name="usernameStyle" value="USERID" />
+</vcs-root>
+
