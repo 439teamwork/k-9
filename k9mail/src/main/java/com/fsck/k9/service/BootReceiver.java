@@ -1,8 +1,6 @@
 
 package com.fsck.k9.service;
 
-import java.util.Date;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -13,6 +11,8 @@ import android.util.Log;
 
 import com.fsck.k9.K9;
 import com.fsck.k9.helper.K9AlarmManager;
+
+import java.util.Date;
 
 public class BootReceiver extends CoreReceiver {
 
@@ -89,8 +89,7 @@ public class BootReceiver extends CoreReceiver {
         i.putExtra(ALARMED_INTENT, alarmedIntent);
         Uri uri = Uri.parse("action://" + alarmedAction);
         i.setData(uri);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
-        return pi;
+        return PendingIntent.getBroadcast(context, 0, i, 0);
     }
 
     public static void scheduleIntent(Context context, long atTime, Intent alarmedIntent) {
