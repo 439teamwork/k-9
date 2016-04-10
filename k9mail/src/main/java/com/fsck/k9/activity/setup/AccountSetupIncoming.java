@@ -636,8 +636,7 @@ public class AccountSetupIncoming extends K9Activity implements OnClickListener 
     };
 
     private AuthType getSelectedAuthType() {
-        AuthTypeHolder holder = (AuthTypeHolder) mAuthTypeView.getSelectedItem();
-        return holder.authType;
+        return ((AuthTypeHolder) mAuthTypeView.getSelectedItem()).authType;
     }
 
     private ConnectionSecurity getSelectedSecurity() {
