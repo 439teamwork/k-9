@@ -1,8 +1,5 @@
 package com.fsck.k9.ui.messageview;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -36,12 +33,14 @@ import com.fsck.k9.mail.Address;
 import com.fsck.k9.mail.MessagingException;
 import com.fsck.k9.mailstore.AttachmentViewInfo;
 import com.fsck.k9.mailstore.MessageViewInfo.MessageViewContainer;
-
 import com.fsck.k9.mailstore.OpenPgpResultAnnotation;
 import com.fsck.k9.mailstore.OpenPgpResultAnnotation.CryptoError;
 import com.fsck.k9.view.K9WebViewClient;
 import com.fsck.k9.view.MessageHeader.OnLayoutChangedListener;
 import com.fsck.k9.view.MessageWebView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MessageContainerView extends LinearLayout implements OnClickListener,
@@ -426,14 +425,13 @@ public class MessageContainerView extends LinearLayout implements OnClickListene
         }
 
         mText = getTextToDisplay(messageViewContainer);
-        if (mText != null && lookForImages) {
-            if (Utility.hasExternalImages(mText) && !isShowingPictures()) {
+        if (mText != null && lookForImages && Utility.hasExternalImages(mText) && !isShowingPictures()) {
                 if (automaticallyLoadPictures) {
                     setLoadPictures(true);
                 } else {
                     showPicturesController.notifyMessageContainerContainsPictures(this);
                 }
-            }
+
         }
 
         if (displayPgpHeader) {

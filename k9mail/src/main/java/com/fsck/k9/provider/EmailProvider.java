@@ -476,7 +476,6 @@ public class EmailProvider extends ContentProvider {
             query.append(selection);
             query.append(")");
         }
-
         query.append(" GROUP BY t." + ThreadColumns.ROOT);
     }
 

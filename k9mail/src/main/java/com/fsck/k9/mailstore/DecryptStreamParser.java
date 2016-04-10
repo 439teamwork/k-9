@@ -1,13 +1,6 @@
 package com.fsck.k9.mailstore;
 
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Stack;
-
 import android.content.Context;
 import android.util.Log;
 
@@ -23,6 +16,7 @@ import com.fsck.k9.mail.internet.MimeBodyPart;
 import com.fsck.k9.mail.internet.MimeMessage;
 import com.fsck.k9.mail.internet.MimeMultipart;
 import com.fsck.k9.mail.internet.MimeUtility;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.codec.Base64InputStream;
@@ -34,6 +28,13 @@ import org.apache.james.mime4j.stream.BodyDescriptor;
 import org.apache.james.mime4j.stream.Field;
 import org.apache.james.mime4j.stream.MimeConfig;
 import org.apache.james.mime4j.util.MimeUtil;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Stack;
 
 // TODO rename this class? this class doesn't really bear any 'decrypted' semantics anymore...
 public class DecryptStreamParser {
@@ -99,10 +100,8 @@ public class DecryptStreamParser {
 
     private static File getDecryptedTempDirectory(Context context) {
         File directory = new File(context.getCacheDir(), DECRYPTED_CACHE_DIRECTORY);
-        if (!directory.exists()) {
-            if (!directory.mkdir()) {
+        if (!directory.exists() && !directory.mkdir()) {
                 Log.e(K9.LOG_TAG, "Error creating directory: " + directory.getAbsolutePath());
-            }
         }
 
         return directory;
