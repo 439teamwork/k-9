@@ -1,8 +1,5 @@
 package com.fsck.k9.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +17,9 @@ import com.fsck.k9.K9;
 import com.fsck.k9.Preferences;
 import com.fsck.k9.R;
 import com.fsck.k9.search.SearchAccount;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -171,8 +171,7 @@ public abstract class AccountList extends K9ListActivity implements OnItemClickL
     class LoadAccounts extends AsyncTask<Void, Void, List<Account>> {
         @Override
         protected List<Account> doInBackground(Void... params) {
-            List<Account> accounts = Preferences.getPreferences(getApplicationContext()).getAccounts();
-            return accounts;
+            return Preferences.getPreferences(getApplicationContext()).getAccounts();
         }
 
         @Override
