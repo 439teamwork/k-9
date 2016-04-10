@@ -640,7 +640,6 @@ public class AccountSetupIncoming extends K9Activity implements OnClickListener 
     }
 
     private ConnectionSecurity getSelectedSecurity() {
-        ConnectionSecurityHolder holder = (ConnectionSecurityHolder) mSecurityTypeView.getSelectedItem();
-        return holder.connectionSecurity;
+        return ((ConnectionSecurityHolder) mSecurityTypeView.getSelectedItem()).connectionSecurity;
     }
 }
