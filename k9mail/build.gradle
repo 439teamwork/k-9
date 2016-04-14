@@ -145,11 +145,10 @@ task customFindbugs(type: FindBugs) {
     effort = "default"
     reportLevel = "medium"
 
-    excludeFilter = file("$rootProject.rootDir/config/findbugs/exclude.xml")
+    excludeFilter = file("$rootProject.rootDir/config/findbugs/exclude_filter.xml")
 
-    classes = fileTree('build/classes/debug/')
-    source = fileTree('src/main/java')
-
+    classes = files("${project.buildDir}/findbugs")
+    source 'src'
     include '**/*.java'
     exclude '**/gen/**'
 
