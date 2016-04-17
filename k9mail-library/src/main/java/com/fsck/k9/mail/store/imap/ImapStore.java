@@ -1,6 +1,42 @@
 
 package com.fsck.k9.mail.store.imap;
 
+import android.net.ConnectivityManager;
+import android.os.PowerManager;
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.beetstra.jutf7.CharsetProvider;
+import com.fsck.k9.mail.AuthType;
+import com.fsck.k9.mail.Body;
+import com.fsck.k9.mail.ConnectionSecurity;
+import com.fsck.k9.mail.FetchProfile;
+import com.fsck.k9.mail.Flag;
+import com.fsck.k9.mail.Folder;
+import com.fsck.k9.mail.K9MailLib;
+import com.fsck.k9.mail.Message;
+import com.fsck.k9.mail.MessageRetrievalListener;
+import com.fsck.k9.mail.MessagingException;
+import com.fsck.k9.mail.NetworkType;
+import com.fsck.k9.mail.Part;
+import com.fsck.k9.mail.PushReceiver;
+import com.fsck.k9.mail.Pusher;
+import com.fsck.k9.mail.ServerSettings;
+import com.fsck.k9.mail.ServerSettings.Type;
+import com.fsck.k9.mail.filter.EOLConvertingOutputStream;
+import com.fsck.k9.mail.filter.FixedLengthInputStream;
+import com.fsck.k9.mail.internet.MimeBodyPart;
+import com.fsck.k9.mail.internet.MimeHeader;
+import com.fsck.k9.mail.internet.MimeMessage;
+import com.fsck.k9.mail.internet.MimeMessageHelper;
+import com.fsck.k9.mail.internet.MimeMultipart;
+import com.fsck.k9.mail.internet.MimeUtility;
+import com.fsck.k9.mail.power.TracingPowerManager;
+import com.fsck.k9.mail.power.TracingPowerManager.TracingWakeLock;
+import com.fsck.k9.mail.ssl.TrustedSocketFactory;
+import com.fsck.k9.mail.store.RemoteStore;
+import com.fsck.k9.mail.store.StoreConfig;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,43 +67,6 @@ import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import android.net.ConnectivityManager;
-import android.os.PowerManager;
-import android.text.TextUtils;
-import android.util.Log;
-
-import com.fsck.k9.mail.NetworkType;
-import com.fsck.k9.mail.internet.MimeMessageHelper;
-import com.fsck.k9.mail.power.TracingPowerManager;
-import com.fsck.k9.mail.power.TracingPowerManager.TracingWakeLock;
-import com.fsck.k9.mail.AuthType;
-import com.fsck.k9.mail.Body;
-import com.fsck.k9.mail.ConnectionSecurity;
-import com.fsck.k9.mail.FetchProfile;
-import com.fsck.k9.mail.Flag;
-import com.fsck.k9.mail.Folder;
-import com.fsck.k9.mail.K9MailLib;
-import com.fsck.k9.mail.Message;
-import com.fsck.k9.mail.MessageRetrievalListener;
-import com.fsck.k9.mail.MessagingException;
-import com.fsck.k9.mail.Part;
-import com.fsck.k9.mail.PushReceiver;
-import com.fsck.k9.mail.Pusher;
-import com.fsck.k9.mail.ServerSettings;
-import com.fsck.k9.mail.ServerSettings.Type;
-import com.fsck.k9.mail.filter.EOLConvertingOutputStream;
-import com.fsck.k9.mail.filter.FixedLengthInputStream;
-import com.fsck.k9.mail.internet.MimeBodyPart;
-import com.fsck.k9.mail.internet.MimeHeader;
-import com.fsck.k9.mail.internet.MimeMessage;
-import com.fsck.k9.mail.internet.MimeMultipart;
-import com.fsck.k9.mail.internet.MimeUtility;
-import com.fsck.k9.mail.ssl.TrustedSocketFactory;
-import com.fsck.k9.mail.store.RemoteStore;
-import com.fsck.k9.mail.store.StoreConfig;
-
-import com.beetstra.jutf7.CharsetProvider;
 
 import static com.fsck.k9.mail.K9MailLib.LOG_TAG;
 import static com.fsck.k9.mail.K9MailLib.PUSH_WAKE_LOCK_TIMEOUT;
@@ -1275,10 +1274,8 @@ public class ImapStore extends RemoteStore {
 
             List<ImapResponse> responses = executeSimpleCommand(command);
             for (ImapResponse response : responses) {
-                if (response.getTag() == null && ImapResponseParser.equalsIgnoreCase(response.get(0), "SEARCH")) {
-                    if (response.size() > 1) {
+                if (response.getTag() == null && ImapResponseParser.equalsIgnoreCase(response.get(0), "SEARCH") && response.size() > 1) {
                         return true;
-                    }
                 }
             }
 
@@ -1317,12 +1314,10 @@ public class ImapStore extends RemoteStore {
                 List<Long> uids = new ArrayList<Long>();
                 List<ImapResponse> responses = searcher.search(); //
                 for (ImapResponse response : responses) {
-                    if (response.getTag() == null) {
-                        if (ImapResponseParser.equalsIgnoreCase(response.get(0), "SEARCH")) {
+                    if (response.getTag() == null && ImapResponseParser.equalsIgnoreCase(response.get(0), "SEARCH")) {
                             for (int i = 1, count = response.size(); i < count; i++) {
                                 uids.add(response.getLong(i));
                             }
-                        }
                     }
                 }
 

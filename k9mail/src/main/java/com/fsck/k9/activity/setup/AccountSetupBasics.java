@@ -2,11 +2,6 @@
 package com.fsck.k9.activity.setup;
 
 
-import java.io.Serializable;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Locale;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -31,6 +26,7 @@ import com.fsck.k9.EmailAddressValidator;
 import com.fsck.k9.K9;
 import com.fsck.k9.Preferences;
 import com.fsck.k9.R;
+import com.fsck.k9.account.AccountCreator;
 import com.fsck.k9.activity.K9Activity;
 import com.fsck.k9.activity.setup.AccountSetupCheckSettings.CheckDirection;
 import com.fsck.k9.helper.UrlEncodingHelper;
@@ -40,9 +36,13 @@ import com.fsck.k9.mail.ConnectionSecurity;
 import com.fsck.k9.mail.ServerSettings;
 import com.fsck.k9.mail.Transport;
 import com.fsck.k9.mail.store.RemoteStore;
-import com.fsck.k9.account.AccountCreator;
 import com.fsck.k9.view.ClientCertificateSpinner;
 import com.fsck.k9.view.ClientCertificateSpinner.OnClientCertificateChangedListener;
+
+import java.io.Serializable;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Locale;
 
 /**
  * Prompts the user for the email address and password.
@@ -252,8 +252,7 @@ public class AccountSetupBasics extends K9Activity
 
     @Override
     public Dialog onCreateDialog(int id) {
-        if (id == DIALOG_NOTE) {
-            if (mProvider != null && mProvider.note != null) {
+        if (id == DIALOG_NOTE && mProvider != null && mProvider.note != null) {
                 return new AlertDialog.Builder(this)
                        .setMessage(mProvider.note)
                        .setPositiveButton(
@@ -267,7 +266,7 @@ public class AccountSetupBasics extends K9Activity
                            getString(R.string.cancel_action),
                            null)
                        .create();
-            }
+
         }
         return null;
     }

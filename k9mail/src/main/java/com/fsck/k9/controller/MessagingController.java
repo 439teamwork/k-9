@@ -1,26 +1,5 @@
 package com.fsck.k9.controller;
 
-import java.io.CharArrayWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -43,17 +22,15 @@ import com.fsck.k9.R;
 import com.fsck.k9.activity.MessageReference;
 import com.fsck.k9.activity.setup.AccountSetupCheckSettings.CheckDirection;
 import com.fsck.k9.cache.EmailProviderCache;
-import com.fsck.k9.mail.CertificateValidationException;
-import com.fsck.k9.mail.power.TracingPowerManager;
-import com.fsck.k9.mail.power.TracingPowerManager.TracingWakeLock;
 import com.fsck.k9.mail.Address;
+import com.fsck.k9.mail.CertificateValidationException;
 import com.fsck.k9.mail.FetchProfile;
 import com.fsck.k9.mail.Flag;
 import com.fsck.k9.mail.Folder;
 import com.fsck.k9.mail.Folder.FolderType;
-
 import com.fsck.k9.mail.Message;
 import com.fsck.k9.mail.Message.RecipientType;
+import com.fsck.k9.mail.MessageRetrievalListener;
 import com.fsck.k9.mail.MessagingException;
 import com.fsck.k9.mail.Part;
 import com.fsck.k9.mail.PushReceiver;
@@ -65,14 +42,15 @@ import com.fsck.k9.mail.internet.MimeMessage;
 import com.fsck.k9.mail.internet.MimeMessageHelper;
 import com.fsck.k9.mail.internet.MimeUtility;
 import com.fsck.k9.mail.internet.TextBody;
-import com.fsck.k9.mailstore.LocalFolder.MoreMessages;
-import com.fsck.k9.mailstore.MessageRemovalListener;
-import com.fsck.k9.mail.MessageRetrievalListener;
+import com.fsck.k9.mail.power.TracingPowerManager;
+import com.fsck.k9.mail.power.TracingPowerManager.TracingWakeLock;
+import com.fsck.k9.mail.store.pop3.Pop3Store;
 import com.fsck.k9.mailstore.LocalFolder;
+import com.fsck.k9.mailstore.LocalFolder.MoreMessages;
 import com.fsck.k9.mailstore.LocalMessage;
 import com.fsck.k9.mailstore.LocalStore;
 import com.fsck.k9.mailstore.LocalStore.PendingCommand;
-import com.fsck.k9.mail.store.pop3.Pop3Store;
+import com.fsck.k9.mailstore.MessageRemovalListener;
 import com.fsck.k9.mailstore.UnavailableStorageException;
 import com.fsck.k9.notification.NotificationController;
 import com.fsck.k9.provider.EmailProvider;
@@ -82,6 +60,34 @@ import com.fsck.k9.search.LocalSearch;
 import com.fsck.k9.search.SearchAccount;
 import com.fsck.k9.search.SearchSpecification;
 import com.fsck.k9.search.SqlQueryBuilder;
+
+import java.io.CharArrayWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -1059,10 +1065,9 @@ public class MessagingController implements Runnable {
      * to treat Pop3 and Imap the same in this code.
      */
     private boolean verifyOrCreateRemoteSpecialFolder(final Account account, final String folder, final Folder remoteFolder, final MessagingListener listener) throws MessagingException {
-        if (folder.equals(account.getTrashFolderName()) ||
+        if ((folder.equals(account.getTrashFolderName()) ||
                 folder.equals(account.getSentFolderName()) ||
-                folder.equals(account.getDraftsFolderName())) {
-            if (!remoteFolder.exists()) {
+                folder.equals(account.getDraftsFolderName())) && !remoteFolder.exists()) {
                 if (!remoteFolder.create(FolderType.HOLDS_MESSAGES)) {
                     for (MessagingListener l : getListeners(listener)) {
                         l.synchronizeMailboxFinished(account, folder, 0, 0);
@@ -1072,7 +1077,6 @@ public class MessagingController implements Runnable {
 
                     return false;
                 }
-            }
         }
         return true;
     }
@@ -1103,10 +1107,8 @@ public class MessagingController implements Runnable {
         final Date earliestDate = account.getEarliestPollDate();
         Date downloadStarted = new Date(); // now
 
-        if (earliestDate != null) {
-            if (K9.DEBUG) {
+        if (earliestDate != null && K9.DEBUG) {
                 Log.d(K9.LOG_TAG, "Only syncing messages after " + earliestDate);
-            }
         }
         final String folder = remoteFolder.getName();
 
@@ -1832,10 +1834,8 @@ public class MessagingController implements Runnable {
 
             Store remoteStore = account.getRemoteStore();
             remoteFolder = remoteStore.getFolder(folder);
-            if (!remoteFolder.exists()) {
-                if (!remoteFolder.create(FolderType.HOLDS_MESSAGES)) {
+            if (!remoteFolder.exists() && !remoteFolder.create(FolderType.HOLDS_MESSAGES)) {
                     return;
-                }
             }
             remoteFolder.open(Folder.OPEN_MODE_RW);
             if (remoteFolder.getMode() != Folder.OPEN_MODE_RW) {
