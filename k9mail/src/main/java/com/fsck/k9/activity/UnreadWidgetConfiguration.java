@@ -86,8 +86,7 @@ public class UnreadWidgetConfiguration extends AccountList {
 
     public static String getAccountUuid(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        String accountUuid = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
-        return accountUuid;
+        return prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
     }
 
     public static void deleteWidgetConfiguration(Context context, int appWidgetId) {

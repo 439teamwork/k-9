@@ -46,17 +46,14 @@ public class MessageTitleView extends TextView {
          * for TextViews. To work around that, check for ourselves whether
          * the text is longer than MAX_LINES, and ellipsize manually.
          */
-        if (mNeedEllipsizeCheck) {
-            if (getLayout() != null && mHeader != null) {
-                if (getLayout().getLineCount() > MAX_LINES) {
+        if ((mNeedEllipsizeCheck) && getLayout() != null && mHeader != null && getLayout().getLineCount() > MAX_LINES) {
                     int lineEndIndex = getLayout().getLineEnd(MAX_LINES - 1);
                     setText(getText().subSequence(0, lineEndIndex - 2) + ELLIPSIS);
-                } else {
-                    mHeader.hideSubjectLine();
-                }
-                mNeedEllipsizeCheck = false;
+            } else {
+                mHeader.hideSubjectLine();
             }
-        }
+            mNeedEllipsizeCheck = false;
+
         super.onDraw(canvas);
     }
 

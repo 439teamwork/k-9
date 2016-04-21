@@ -1,13 +1,6 @@
 package com.fsck.k9.ui.messageview;
 
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -22,7 +15,15 @@ import com.fsck.k9.helper.FileHelper;
 import com.fsck.k9.helper.UrlEncodingHelper;
 import com.fsck.k9.mail.internet.MimeUtility;
 import com.fsck.k9.provider.AttachmentProvider.AttachmentProviderColumns;
+
 import org.apache.commons.io.IOUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 
 @Deprecated
@@ -96,7 +97,7 @@ class DownloadImageTask extends AsyncTask<String, Void, String> {
         String fileName;
 
         String path = url.getPath();
-        int start = path.lastIndexOf("/");
+        int start = path.lastIndexOf('/');
         if (start != -1 && start + 1 < path.length()) {
             fileName = UrlEncodingHelper.decodeUtf8(path.substring(start + 1));
         } else {

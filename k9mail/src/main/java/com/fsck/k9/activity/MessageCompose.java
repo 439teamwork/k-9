@@ -1,23 +1,6 @@
 package com.fsck.k9.activity;
 
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -109,6 +92,7 @@ import com.fsck.k9.message.QuotedTextMode;
 import com.fsck.k9.message.SimpleMessageFormat;
 import com.fsck.k9.ui.EolConvertingEditText;
 import com.fsck.k9.view.MessageWebView;
+
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.SimpleHtmlSerializer;
@@ -116,6 +100,22 @@ import org.htmlcleaner.TagNode;
 import org.openintents.openpgp.OpenPgpError;
 import org.openintents.openpgp.util.OpenPgpApi;
 import org.openintents.openpgp.util.OpenPgpServiceConnection;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MessageCompose extends K9Activity implements OnClickListener,
         CancelListener, OnFocusChangeListener, OnCryptoModeChangedListener {
@@ -843,17 +843,16 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         boolean startedByExternalIntent = false;
         final String action = intent.getAction();
 
-        if (Intent.ACTION_VIEW.equals(action) || Intent.ACTION_SENDTO.equals(action)) {
+        if (intent.getData() != null && (Intent.ACTION_VIEW.equals(action) || Intent.ACTION_SENDTO.equals(action))) {
             /*
              * Someone has clicked a mailto: link. The address is in the URI.
              */
-            if (intent.getData() != null) {
                 Uri uri = intent.getData();
                 if (MailTo.isMailTo(uri)) {
                     MailTo mailTo = MailTo.parse(uri);
                     initializeFromMailto(mailTo);
                 }
-            }
+
 
             /*
              * Note: According to the documentation ACTION_VIEW and ACTION_SENDTO don't accept
@@ -2167,10 +2166,9 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         // Quote the message and setup the UI.
         populateUIWithQuotedMessage(true);
 
-        if (!mSourceMessageProcessed) {
-            if (!loadAttachments(message, 0)) {
+        if (!mSourceMessageProcessed && !loadAttachments(message, 0)) {
                 mHandler.sendEmptyMessage(MSG_SKIPPED_ATTACHMENTS);
-            }
+
         }
     }
 
@@ -2552,10 +2550,10 @@ public class MessageCompose extends K9Activity implements OnClickListener,
 
         } else if (mQuotedTextFormat == SimpleMessageFormat.TEXT) {
             if (mAccount.isStripSignature() &&
-                    (mAction == Action.REPLY || mAction == Action.REPLY_ALL || mAction == Action.QUICK_REPLY)) {
-                if (DASH_SIGNATURE_PLAIN.matcher(content).find()) {
-                    content = DASH_SIGNATURE_PLAIN.matcher(content).replaceFirst("\r\n");
-                }
+                    (mAction == Action.REPLY || mAction == Action.REPLY_ALL || mAction == Action.QUICK_REPLY)
+                    && DASH_SIGNATURE_PLAIN.matcher(content).find()) {
+                content = DASH_SIGNATURE_PLAIN.matcher(content).replaceFirst("\r\n");
+
             }
 
             mQuotedText.setCharacters(quoteOriginalTextMessage(mSourceMessage, content, mQuoteStyle));
@@ -2903,14 +2901,8 @@ public class MessageCompose extends K9Activity implements OnClickListener,
             /*
              * Save a draft
              */
-            if (mAction == Action.EDIT_DRAFT) {
-                /*
-                 * We're saving a previously saved draft, so update the new message's uid
-                 * to the old message's uid.
-                 */
-                if (mMessageReference != null) {
+            if (mAction == Action.EDIT_DRAFT && mMessageReference != null) {
                     message.setUid(mMessageReference.getUid());
-                }
             }
 
             final MessagingController messagingController = MessagingController.getInstance(getApplication());

@@ -107,6 +107,7 @@ android {
 }
 
 task jacocoTestReport(type:JacocoReport) {
+    logger.warn("jacoco test report")
     group = "Reporting"
 
     description = "Generate Jacoco coverage reports"
@@ -143,9 +144,10 @@ task customFindbugs(type: FindBugs) {
     ignoreFailures = true
     effort = "default"
     reportLevel = "medium"
-    classes = fileTree('build/classes/debug/')
-    excludeFilter = file("$rootProject.rootDir/config/findbugs/exclude.xml")
 
+    excludeFilter = file("$rootProject.rootDir/config/findbugs/exclude_filter.xml")
+
+    classes = files("${project.buildDir}/findbugs")
     source 'src'
     include '**/*.java'
     exclude '**/gen/**'
@@ -167,7 +169,7 @@ task customFindbugs(type: FindBugs) {
 task customPMD(type: Pmd) {
     logger.warn("PMD custom")
     ruleSetFiles = files("${project.rootDir}/config/quality/pmd/pmd-ruleset.xml")
-    ignoreFailures = false
+    ignoreFailures = true
     ruleSets = []
 
     source 'src'

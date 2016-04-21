@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
-  <versionedSettings rootId="K9mail_HttpsGithubCom439teamworkK9gitRefsHeadsMaster" enabled="true" showChanges="false" buildSettings="ALWAYS_USE_CURRENT" />
+  <versionedSettings rootId="k9email_vcs_root" enabled="true" showChanges="false" buildSettings="ALWAYS_USE_CURRENT" />
   <project-graphs>
     <graph title="Tests" defaultFilters="" hideFilters="" id="customGraph1" seriesTitle="Tests">
       <valueType key="PassedTestCount" title="Number of Passed Tests" sourceBuildTypeId="K9mail_AndroidbuildConfig1" />

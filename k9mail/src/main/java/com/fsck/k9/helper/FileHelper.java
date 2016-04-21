@@ -1,14 +1,14 @@
 package com.fsck.k9.helper;
 
 
+import android.util.Log;
+
+import com.fsck.k9.K9;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Locale;
-
-import android.util.Log;
-
-import com.fsck.k9.K9;
 
 
 public class FileHelper {
@@ -115,10 +115,8 @@ public class FileHelper {
             return;
         }
         if (!fromDir.isDirectory()) {
-            if (toDir.exists()) {
-                if (!toDir.delete()) {
+            if (toDir.exists() && !toDir.delete()) {
                     Log.w(K9.LOG_TAG, "cannot delete already existing file/directory " + toDir.getAbsolutePath());
-                }
             }
             if (!fromDir.renameTo(toDir)) {
                 Log.w(K9.LOG_TAG, "cannot rename " + fromDir.getAbsolutePath() + " to " + toDir.getAbsolutePath() + " - moving instead");

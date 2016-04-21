@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="ab1c5521-55ee-4fcf-9332-f5b4f32b74c7" type="jetbrains.git" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
-  <name>https://github.com/439teamwork/k-9.git#refs/heads/master</name>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="134b18aa-3960-41d7-b2a8-2c3c25a596ca" type="jetbrains.git" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>k9email_vcs_root</name>
   <param name="agentCleanFilesPolicy" value="ALL_UNTRACKED" />
   <param name="agentCleanPolicy" value="ON_BRANCH_CHANGE" />
+  <param name="agentGitPath" value="E:\Program Files (x86)\Git\bin\git.exe" />
   <param name="authMethod" value="PASSWORD" />
   <param name="branch" value="refs/heads/master" />
   <param name="ignoreKnownHosts" value="true" />

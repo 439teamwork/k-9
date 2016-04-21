@@ -1,9 +1,9 @@
 package com.fsck.k9.activity;
 
-import java.util.Collection;
-import java.util.List;
-
 import android.app.ActionBar;
+import android.app.FragmentManager;
+import android.app.FragmentManager.OnBackStackChangedListener;
+import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +12,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.FragmentManager;
-import android.app.FragmentManager.OnBackStackChangedListener;
-import android.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -40,20 +37,23 @@ import com.fsck.k9.activity.setup.Prefs;
 import com.fsck.k9.crypto.PgpData;
 import com.fsck.k9.fragment.MessageListFragment;
 import com.fsck.k9.fragment.MessageListFragment.MessageListFragmentListener;
-import com.fsck.k9.ui.messageview.MessageViewFragment;
-import com.fsck.k9.ui.messageview.MessageViewFragment.MessageViewFragmentListener;
-import com.fsck.k9.mailstore.StorageManager;
 import com.fsck.k9.mailstore.LocalMessage;
+import com.fsck.k9.mailstore.StorageManager;
 import com.fsck.k9.search.LocalSearch;
 import com.fsck.k9.search.SearchAccount;
 import com.fsck.k9.search.SearchSpecification;
 import com.fsck.k9.search.SearchSpecification.Attribute;
 import com.fsck.k9.search.SearchSpecification.SearchCondition;
 import com.fsck.k9.search.SearchSpecification.SearchField;
+import com.fsck.k9.ui.messageview.MessageViewFragment;
+import com.fsck.k9.ui.messageview.MessageViewFragment.MessageViewFragmentListener;
 import com.fsck.k9.view.MessageHeader;
 import com.fsck.k9.view.MessageTitleView;
 import com.fsck.k9.view.ViewSwitcher;
 import com.fsck.k9.view.ViewSwitcher.OnSwitchCompleteListener;
+
+import java.util.Collection;
+import java.util.List;
 
 import de.cketti.library.changelog.ChangeLog;
 
@@ -724,12 +724,11 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         // Swallow these events too to avoid the audible notification of a volume change
-        if (K9.useVolumeKeysForListNavigationEnabled()) {
-            if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP) || (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+        if (K9.useVolumeKeysForListNavigationEnabled() && (keyCode == KeyEvent.KEYCODE_VOLUME_UP) || (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
                 if (K9.DEBUG)
                     Log.v(K9.LOG_TAG, "Swallowed key up.");
                 return true;
-            }
+
         }
         return super.onKeyUp(keyCode, event);
     }
@@ -1457,22 +1456,18 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
 
     private boolean showNextMessage() {
         MessageReference ref = mMessageViewFragment.getMessageReference();
-        if (ref != null) {
-            if (mMessageListFragment.openNext(ref)) {
+        if (ref != null && mMessageListFragment.openNext(ref)) {
                 mLastDirection = NEXT;
                 return true;
-            }
         }
         return false;
     }
 
     private boolean showPreviousMessage() {
         MessageReference ref = mMessageViewFragment.getMessageReference();
-        if (ref != null) {
-            if (mMessageListFragment.openPrevious(ref)) {
+        if (ref != null && mMessageListFragment.openPrevious(ref)) {
                 mLastDirection = PREVIOUS;
                 return true;
-            }
         }
         return false;
     }

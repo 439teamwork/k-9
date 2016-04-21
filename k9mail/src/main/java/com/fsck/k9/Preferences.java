@@ -89,7 +89,7 @@ public class Preferences {
      */
     public synchronized Collection<Account> getAvailableAccounts() {
         List<Account> allAccounts = getAccounts();
-        Collection<Account> retval = new ArrayList<Account>(accounts.size());
+        Collection<Account> retval = new ArrayList<>(accounts.size());
         for (Account account : allAccounts) {
             if (account.isEnabled() && account.isAvailable(mContext)) {
                 retval.add(account);
@@ -103,9 +103,7 @@ public class Preferences {
         if (accounts == null) {
             loadAccounts();
         }
-        Account account = accounts.get(uuid);
-
-        return account;
+        return  accounts.get(uuid);
     }
 
     public synchronized Account newAccount() {
