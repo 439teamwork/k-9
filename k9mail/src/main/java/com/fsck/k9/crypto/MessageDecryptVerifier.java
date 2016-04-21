@@ -95,6 +95,8 @@ public class MessageDecryptVerifier {
                     case OpenPgpUtils.PARSE_RESULT_MESSAGE:
                     case OpenPgpUtils.PARSE_RESULT_SIGNED_MESSAGE:
                         inlineParts.add(part);
+                    default:
+                        System.out.println("This is a default test case! Should not reach this point");
                 }
             } else if (body instanceof Multipart) {
                 Multipart multipart = (Multipart) body;

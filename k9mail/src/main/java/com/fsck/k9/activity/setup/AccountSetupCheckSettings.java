@@ -308,6 +308,8 @@ public class AccountSetupCheckSettings extends K9Activity implements OnClickList
         case R.id.cancel:
             onCancel();
             break;
+        default:
+            System.out.println("This is a default test case! Should not reach this point");
         }
     }
 
@@ -361,6 +363,8 @@ public class AccountSetupCheckSettings extends K9Activity implements OnClickList
                 finish();
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 
@@ -373,6 +377,8 @@ public class AccountSetupCheckSettings extends K9Activity implements OnClickList
                 finish();
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 

@@ -1170,6 +1170,8 @@ public class Accounts extends K9ListActivity implements OnItemClickListener {
                                        mSelectedContextAccount.getDescription()));
             break;
         }
+        default:
+            System.out.println("This is a defualt case! Should not reach this point");
         }
 
         super.onPrepareDialog(id, d);
@@ -1216,6 +1218,8 @@ public class Accounts extends K9ListActivity implements OnItemClickListener {
                 case R.id.move_down:
                     onMove(realAccount, false);
                     break;
+                default:
+                    System.out.println("This is a default case! Should not reach this point!");
             }
         }
         return true;
@@ -1443,6 +1447,8 @@ public class Accounts extends K9ListActivity implements OnItemClickListener {
         case ACTIVITY_REQUEST_PICK_SETTINGS_FILE:
             onImport(data.getData());
             break;
+        default:
+            System.out.println("This is a default case! Should not reach this point!");
         }
     }
 

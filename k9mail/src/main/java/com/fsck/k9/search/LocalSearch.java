@@ -21,7 +21,7 @@ import android.os.Parcelable;
  *
  */
 
-public class LocalSearch implements SearchSpecification {
+public class LocalSearch implements SearchSpecification, Cloneable {
 
     private String mName;
     private boolean mPredefined;

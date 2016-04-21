@@ -147,6 +147,8 @@ public class ChooseFolder extends K9ListActivity {
                     getListView().setSelection(msg.arg1);
                     break;
                 }
+                default:
+                    System.out.println("This is a default case! Should not reach this point!");
             }
         }
 

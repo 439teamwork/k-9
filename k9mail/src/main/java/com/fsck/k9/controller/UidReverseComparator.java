@@ -1,12 +1,13 @@
 package com.fsck.k9.controller;
 
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import com.fsck.k9.mail.Message;
 
 
-class UidReverseComparator implements Comparator<Message> {
+class UidReverseComparator implements Comparator<Message>, Serializable{
     @Override
     public int compare(Message messageLeft, Message messageRight) {
         Long uidLeft = getUidForMessage(messageLeft);

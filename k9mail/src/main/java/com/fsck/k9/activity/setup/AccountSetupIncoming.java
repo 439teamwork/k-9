@@ -592,9 +592,11 @@ public class AccountSetupIncoming extends K9Activity implements OnClickListener 
     public void onClick(View v) {
         try {
             switch (v.getId()) {
-            case R.id.next:
-                onNext();
-                break;
+                case R.id.next:
+                    onNext();
+                    break;
+                default:
+                    System.out.println("This is a default test case! Should not reach this point");
             }
         } catch (Exception e) {
             failure(e);

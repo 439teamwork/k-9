@@ -108,6 +108,8 @@ public class ManageIdentities extends ChooseIdentity {
                                Toast.LENGTH_LONG).show();
             }
             break;
+        default:
+            System.out.println("This is a default test case! Should not reach this point");
         }
         return true;
     }

@@ -138,6 +138,8 @@ public class NotificationSetting {
         case 5:
             selectedPattern = pattern5;
             break;
+        default:
+            selectedPattern = pattern0;
         }
 
         long[] repeatedPattern = new long[selectedPattern.length * times];

@@ -1518,23 +1518,27 @@ public class Account implements BaseAccount, StoreConfig {
             now.set(Calendar.MILLISECOND, 0);
             if (age < 28) {
                 now.add(Calendar.DATE, age * -1);
-            } else switch (age) {
-                case 28:
-                    now.add(Calendar.MONTH, -1);
-                    break;
-                case 56:
-                    now.add(Calendar.MONTH, -2);
-                    break;
-                case 84:
-                    now.add(Calendar.MONTH, -3);
-                    break;
-                case 168:
-                    now.add(Calendar.MONTH, -6);
-                    break;
-                case 365:
-                    now.add(Calendar.YEAR, -1);
-                    break;
+            } else {
+                switch (age) {
+                    case 28:
+                        now.add(Calendar.MONTH, -1);
+                        break;
+                    case 56:
+                        now.add(Calendar.MONTH, -2);
+                        break;
+                    case 84:
+                        now.add(Calendar.MONTH, -3);
+                        break;
+                    case 168:
+                        now.add(Calendar.MONTH, -6);
+                        break;
+                    case 365:
+                        now.add(Calendar.YEAR, -1);
+                        break;
+                    default:
+                        now.add(Calendar.MONTH, -0);
                 }
+            }
 
             return now.getTime();
         }

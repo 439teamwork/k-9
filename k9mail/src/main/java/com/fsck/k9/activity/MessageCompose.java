@@ -248,6 +248,8 @@ public class MessageCompose extends K9Activity implements OnClickListener,
                     recipientPresenter.onNonRecipientFieldFocused();
                 }
                 break;
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 
@@ -1608,6 +1610,8 @@ public class MessageCompose extends K9Activity implements OnClickListener,
                 addAttachmentsFromResultIntent(data);
                 mDraftNeedsSaving = true;
                 break;
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 
@@ -1742,6 +1746,8 @@ public class MessageCompose extends K9Activity implements OnClickListener,
             case R.id.identity:
                 showDialog(DIALOG_CHOOSE_IDENTITY);
                 break;
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 

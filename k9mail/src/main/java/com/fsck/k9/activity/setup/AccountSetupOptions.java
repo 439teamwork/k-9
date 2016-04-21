@@ -158,6 +158,8 @@ public class AccountSetupOptions extends K9Activity implements OnClickListener {
         case R.id.next:
             onDone();
             break;
+        default:
+            System.out.println("This is a default test case! Should not reach this point");
         }
     }
 }

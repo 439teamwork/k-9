@@ -164,6 +164,8 @@ public class RecipientMvpView implements OnFocusChangeListener, OnClickListener 
                 bccView.addRecipients(recipients);
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 
@@ -309,6 +311,8 @@ public class RecipientMvpView implements OnFocusChangeListener, OnClickListener 
                 presenter.onBccFocused();
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 
@@ -323,6 +327,8 @@ public class RecipientMvpView implements OnFocusChangeListener, OnClickListener 
                 presenter.onClickCryptoStatus();
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 

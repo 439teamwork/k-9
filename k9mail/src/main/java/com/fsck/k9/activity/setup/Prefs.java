@@ -566,6 +566,8 @@ public class Prefs extends K9PreferenceActivity {
                 }
             }
             break;
+        default:
+            System.out.println("This is a default test case! Should not reach this point");
         }
 
         super.onActivityResult(requestCode, resultCode, data);

@@ -138,6 +138,8 @@ public class MessageHeader extends LinearLayout implements OnClickListener {
                 expand((TextView)view, ((TextView)view).getEllipsize() != null);
                 layoutChanged();
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 

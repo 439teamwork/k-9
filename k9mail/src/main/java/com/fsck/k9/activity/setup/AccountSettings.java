@@ -855,9 +855,11 @@ public class AccountSettings extends K9PreferenceActivity {
         }
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-            case SELECT_AUTO_EXPAND_FOLDER:
-                mAutoExpandFolder.setSummary(translateFolder(data.getStringExtra(ChooseFolder.EXTRA_NEW_FOLDER)));
-                break;
+                case SELECT_AUTO_EXPAND_FOLDER:
+                    mAutoExpandFolder.setSummary(translateFolder(data.getStringExtra(ChooseFolder.EXTRA_NEW_FOLDER)));
+                    break;
+                default:
+                    System.out.println("This is a default test case! Should not reach this point");
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -923,6 +925,8 @@ public class AccountSettings extends K9PreferenceActivity {
 
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
 
         return dialog;

@@ -1,5 +1,6 @@
 package com.fsck.k9.fragment;
 
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -223,7 +224,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         }
     }
 
-    public static class ReverseIdComparator implements Comparator<Cursor> {
+    public static class ReverseIdComparator implements Comparator<Cursor>, Serializable{
         private int mIdColumn = -1;
 
         @Override
@@ -237,7 +238,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         }
     }
 
-    public static class AttachmentComparator implements Comparator<Cursor> {
+    public static class AttachmentComparator implements Comparator<Cursor>, Serializable{
 
         @Override
         public int compare(Cursor cursor1, Cursor cursor2) {
@@ -247,7 +248,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         }
     }
 
-    public static class FlaggedComparator implements Comparator<Cursor> {
+    public static class FlaggedComparator implements Comparator<Cursor>, Serializable{
 
         @Override
         public int compare(Cursor cursor1, Cursor cursor2) {
@@ -257,7 +258,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         }
     }
 
-    public static class UnreadComparator implements Comparator<Cursor> {
+    public static class UnreadComparator implements Comparator<Cursor>, Serializable{
 
         @Override
         public int compare(Cursor cursor1, Cursor cursor2) {
@@ -267,7 +268,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         }
     }
 
-    public static class DateComparator implements Comparator<Cursor> {
+    public static class DateComparator implements Comparator<Cursor>, Serializable{
 
         @Override
         public int compare(Cursor cursor1, Cursor cursor2) {
@@ -283,7 +284,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         }
     }
 
-    public static class ArrivalComparator implements Comparator<Cursor> {
+    public static class ArrivalComparator implements Comparator<Cursor>, Serializable{
 
         @Override
         public int compare(Cursor cursor1, Cursor cursor2) {
@@ -299,7 +300,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         }
     }
 
-    public static class SubjectComparator implements Comparator<Cursor> {
+    public static class SubjectComparator implements Comparator<Cursor>, Serializable{
 
         @Override
         public int compare(Cursor cursor1, Cursor cursor2) {
@@ -316,7 +317,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         }
     }
 
-    public static class SenderComparator implements Comparator<Cursor> {
+    public static class SenderComparator implements Comparator<Cursor>, Serializable{
 
         @Override
         public int compare(Cursor cursor1, Cursor cursor2) {
@@ -1362,6 +1363,8 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
                 case ACTIVITY_CHOOSE_FOLDER_COPY:
                     copy(messages, destFolderName);
                     break;
+                default:
+                    System.out.println("This is a default test case! Should not reach this point");
                 }
             }
             break;
@@ -1571,6 +1574,8 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
                 onCopy(getMessageAtPosition(adapterPosition));
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
 
         mContextMenuUniqueId = 0;
@@ -2142,6 +2147,8 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
                     case R.id.flagged_center_right:
                         toggleMessageFlagWithAdapterPosition(position);
                         break;
+                    default:
+                        System.out.println("This is a default test case! Should not reach this point");
                 }
             }
         }
@@ -2915,6 +2922,8 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
                 mSelectedCount = 0;
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
             }
             if (mSelectedCount == 0) {
                 mActionMode.finish();
@@ -2938,6 +2947,8 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
                 mActiveMessage = null;
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 
@@ -2950,6 +2961,8 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
                 mActiveMessages = null;
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 

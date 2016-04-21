@@ -23,7 +23,7 @@ import com.fsck.k9.mailstore.LockableDatabase.WrappedException;
 import com.fsck.k9.message.preview.PreviewResult.PreviewType;
 
 
-public class LocalMessage extends MimeMessage {
+public class LocalMessage extends MimeMessage implements Cloneable{
     protected MessageReference mReference;
     private final LocalStore localStore;
 

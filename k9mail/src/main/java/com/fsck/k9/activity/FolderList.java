@@ -643,6 +643,8 @@ public class FolderList extends K9ListActivity {
         case R.id.folder_settings:
             FolderSettings.actionSettings(this, mAccount, folder.name);
             break;
+        default:
+            System.out.println("This is a default test case! Should not reach this point");
         }
 
         return super.onContextItemSelected(item);

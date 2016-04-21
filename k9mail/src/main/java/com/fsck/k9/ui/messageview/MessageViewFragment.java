@@ -468,6 +468,8 @@ public class MessageViewFragment extends Fragment implements ConfirmationDialogF
                             copyMessage(ref, destFolderName);
                             break;
                         }
+                        default:
+                            System.out.println("This is a default test case! Should not reach this point");
                     }
                 }
                 break;
@@ -608,6 +610,8 @@ public class MessageViewFragment extends Fragment implements ConfirmationDialogF
                 mDstFolder = null;
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 

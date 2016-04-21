@@ -101,6 +101,8 @@ public class AttachmentView extends FrameLayout implements OnClickListener, OnLo
                 onSaveButtonClick();
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 

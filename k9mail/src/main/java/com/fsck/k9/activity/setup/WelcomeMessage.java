@@ -50,6 +50,8 @@ public class WelcomeMessage extends K9Activity implements OnClickListener{
                 finish();
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 }

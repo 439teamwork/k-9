@@ -110,6 +110,8 @@ public class RecipientAdapter extends BaseAdapter implements Filterable {
                 cryptoStatusColor = context.getResources().getColor(R.color.openpgp_red);
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
 
         if (cryptoStatusRes != null) {

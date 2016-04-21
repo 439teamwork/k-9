@@ -3,7 +3,7 @@ package com.fsck.k9.search;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public interface SearchSpecification extends Parcelable {
+public interface SearchSpecification extends Parcelable{
 
     /**
      * Get all the uuids of accounts this search acts on.
@@ -116,7 +116,7 @@ public interface SearchSpecification extends Parcelable {
         }
 
         @Override
-        public SearchCondition clone() {
+        public SearchCondition clone(){
             return new SearchCondition(field, attribute, value);
         }
 

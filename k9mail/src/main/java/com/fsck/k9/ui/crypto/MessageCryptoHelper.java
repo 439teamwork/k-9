@@ -378,6 +378,8 @@ public class MessageCryptoHelper {
                 handleCryptoOperationSuccess(outputPart);
                 break;
             }
+            default:
+                System.out.println("This is a default test case! Should not reach this point");
         }
     }
 

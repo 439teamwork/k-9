@@ -95,6 +95,8 @@ public class AccountSetupNames extends K9Activity implements OnClickListener {
         case R.id.done:
             onNext();
             break;
+        default:
+            System.out.println("This is a default test case! Should not reach this point");
         }
     }
 }

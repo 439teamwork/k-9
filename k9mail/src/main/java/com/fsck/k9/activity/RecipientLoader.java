@@ -236,6 +236,8 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
                     addressLabel = cursor.getString(INDEX_EMAIL_CUSTOM_LABEL);
                     break;
                 }
+                default:
+                    System.out.println("This is a default test case! Should not reach this point");
             }
 
             Uri photoUri = cursor.isNull(INDEX_PHOTO_URI) ? null : Uri.parse(cursor.getString(INDEX_PHOTO_URI));
@@ -280,6 +282,8 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
                             recipient.setCryptoStatus(RecipientCryptoStatus.AVAILABLE_TRUSTED);
                             break;
                         }
+                        default:
+                            System.out.println("This is a default test case! Should not reach this point");
                     }
                 }
             }
